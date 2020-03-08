@@ -1,2 +1,2 @@
 # communityAnalysis
-APPLICATION FOR USER'S AUTHORIZATION IN VK.COM, PHP 
+application  for analysis of community vk.com
