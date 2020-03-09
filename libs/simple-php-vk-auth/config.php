@@ -1,8 +1,12 @@
 <?php
 //Права, которые мы хотим получить (https://vk.com/dev/permissions)
-$scope = array(
-    'nohttps', 'groups', 'photos', 'friends', 'offline'
-);
+$scope = [
+    'nohttps', 
+    'groups', 
+    'photos', 
+    'friends', 
+    'offline'
+];
 
 $protocol = 'http://'; //Если у вас есть SSL-сертификат, то оставляем, иначе меняем на http://
 

@@ -1,73 +1,90 @@
 <?php
 class Authorization
 {
-    private $code; //Код, необходимый для получения токена
-    private $token; //Собственно, токен
-    private $secret; //Ключ, необходимый для осуществления запросов через http соединение
-    private $uid; //ID авторизовавшегося пользователя
+    private $_code; //Код, необходимый для получения токена
+    private $_token; //Собственно, токен
+    private $_secret; //Ключ, необходимый для осуществления запросов через http соединение
+    private $_userId; //ID авторизовавшегося пользователя
 
     public function __construct()
     {
         require_once('config.php');
     }
 
-    public function setCode($code)
+    public function setCode($code):void
     {
-        $this->code = $code;
+        $this->_code = $code;
     }
 
-    private function setToken($token)
+    private function _setToken($token):void
     {
-        $this->token = $token;
-        $_SESSION['token'] = $token;
+        $this->_token = $token;
     }
 
-    private function setSecret($secret)
+    private function _setSecret($secret):void
     {
-        $this->secret = $secret;
-        $_SESSION['secret'] = $secret;
+        $this->_secret = $secret;
     }
 
-    private function setUid($uid)
+    private function _setUserId($userId):void
     {
-        $this->uid = $uid;
-        $_SESSION['uid'] = $uid;
+        $this->_userId = $userId;
+    }
+    
+    public function authorization()
+    {
+        $authJson= $this->_getAuthhorizationJson();
+        $this->_initFields($authJson);
+        $this->_startSession();
+        $this->redirect(APP_URL);
+
     }
 
-    public function getToken()
+    private function _getAuthhorizationJson():String
     {
-        if (!$this->code) {
-            exit('Ошибка.');
+        if (!$this->_code) {
+            exit('GET["CODE"] отсутствует!');
         }
-
         $curl = curl_init();
-        $getAccessTokenParams = 'client_id=' . APP_ID . '&client_secret=' . APP_SECRET . '&code=' . $this->code . '&redirect_uri=' . REDIRECT_URL;
-        curl_setopt($curl, CURLOPT_URL, ACCESS_TOKEN_URL . '?' . $getAccessTokenParams);
+        $requestParams = 'client_id=' . APP_ID . '&client_secret=' . APP_SECRET . '&code=' . $this->_code . '&redirect_uri=' . REDIRECT_URL;
+        curl_setopt($curl, CURLOPT_URL, ACCESS_TOKEN_URL . '?' . $requestParams);
         curl_setopt($curl, CURLOPT_RETURNTRANSFER, TRUE);
         $result = curl_exec($curl);
         curl_close($curl);
+        if (empty($result)) 
+            exit('Внешний сервис дал некорректный ответ -> _getAuthhorizationObject');
+        return $result;
+    }
 
-        $resultObj = json_decode($result);
-
-        if ($resultObj->access_token) {
-            session_start();
-            $this->setToken($resultObj->access_token);
-            $this->setUid($resultObj->user_id);
-            $this->setSecret($resultObj->secret);
-            return true;
-        } else {
-            return false;
+    private function _initFields($authJson):void
+    {
+        if(empty($authJson))
+            exit("Получен пустой объект -> _initField");
+            $authObject = json_decode($authJson);
+        if ($authObject->access_token) {
+            $this->_setToken($authObject->access_token);
+            $this->_setUserId($authObject->user_id);
+            $this->_setSecret($authObject->secret);
         }
     }
 
-    public function redirect($url)
+    private function _startSession():void
+    {
+        session_start();
+        $_SESSION['token'] = $this->_token;
+        $_SESSION['secret'] = $this->_secret;
+        $_SESSION['userId'] = $this->_userId;
+    }
+
+    public function redirect($url):void
     {
         header("HTTP/1.1 301 Moved Permanently");
         header("Location: ".$url);
         exit();
     }
 
-    public function logout() {
+    public function logout():void
+    {
         session_start();
         session_destroy();
         $this->redirect(APP_URL);
