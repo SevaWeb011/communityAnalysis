@@ -30,42 +30,48 @@ class Authorization
     {
         $this->_userId = $userId;
     }
+
+    private function _callExeption($message, $code = 0, $previous = null):void
+    {
+        throw new authorizationExeptions ($message, $code, $previous);
+    }
     
     public function authorization()
     {
-        $authJson= $this->_getAuthhorizationJson();
+        $authJson = $this->_getAuthhorizationJson();
         $this->_initFields($authJson);
         $this->_startSession();
-        $this->redirect(APP_URL);
+        $this->_redirect(APP_URL);
 
     }
 
     private function _getAuthhorizationJson():String
     {
         if (!$this->_code) {
-            exit('GET["CODE"] отсутствует!');
+            $this->_callExeption('GET["CODE"] отсутствует!');
         }
         $curl = curl_init();
         $requestParams = 'client_id=' . APP_ID . '&client_secret=' . APP_SECRET . '&code=' . $this->_code . '&redirect_uri=' . REDIRECT_URL;
         curl_setopt($curl, CURLOPT_URL, ACCESS_TOKEN_URL . '?' . $requestParams);
         curl_setopt($curl, CURLOPT_RETURNTRANSFER, TRUE);
         $result = curl_exec($curl);
-        curl_close($curl);
-        if (empty($result)) 
-            exit('Внешний сервис дал некорректный ответ -> _getAuthhorizationObject');
-        return $result;
+        curl_close($curl); 
+            if(empty($result))
+                $this->_callExeption("Внешний сервис не прислал токен!");
+            return $result;
     }
 
     private function _initFields($authJson):void
     {
         if(empty($authJson))
-            exit("Получен пустой объект -> _initField");
+            $this->_callExeption("Получен пустой объект -> _initField");
             $authObject = json_decode($authJson);
         if ($authObject->access_token) {
             $this->_setToken($authObject->access_token);
             $this->_setUserId($authObject->user_id);
             $this->_setSecret($authObject->secret);
-        }
+        } else
+            $this->_callExeption("Внешний сервис не дал access_token");
     }
 
     private function _startSession():void
@@ -76,19 +82,23 @@ class Authorization
         $_SESSION['userId'] = $this->_userId;
     }
 
-    public function redirect($url):void
+    private function _redirect($url):void
     {
+
         header("HTTP/1.1 301 Moved Permanently");
         header("Location: ".$url);
         exit();
+    }
+
+    public function callCodeOfAuthorization():void
+    {
+        $this->_redirect(AUTH_DIALOG_URL);
     }
 
     public function logout():void
     {
         session_start();
         session_destroy();
-        $this->redirect(APP_URL);
+        $this->_redirect(APP_URL);
     }
-
-
 }

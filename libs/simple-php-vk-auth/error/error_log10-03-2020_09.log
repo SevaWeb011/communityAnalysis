@@ -1,0 +1,8 @@
+Время:21:56:59
+[Exception]: текст: Внешний сервис не дал access_token
+[Exception]: код ошибки: 0
+[Exception]: файл: /var/www/html/libs/simple-php-vk-auth/class/Authorization.php:36
+[Exception]: путь ошибки: #0 /var/www/html/libs/simple-php-vk-auth/class/Authorization.php(72): Authorization->_callExeption('\xD0\x92\xD0\xBD\xD0\xB5\xD1\x88\xD0\xBD\xD0\xB8\xD0\xB9 ...')
+#1 /var/www/html/libs/simple-php-vk-auth/class/Authorization.php(42): Authorization->_initFields('{"error":"inval...')
+#2 /var/www/html/libs/simple-php-vk-auth/auth.php(16): Authorization->authorization()
+#3 {main}
