@@ -57,7 +57,7 @@ class Authorization
         $result = curl_exec($curl);
         curl_close($curl); 
             if(empty($result))
-                $this->_callExeption("Внешний сервис не прислал токен!");
+                $this->_callExeption("Внешний сервис не ответил на запрос токена!");
             return $result;
     }
 
