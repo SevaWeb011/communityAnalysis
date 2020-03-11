@@ -1,2 +1,3 @@
 *.log
 *.txt
+libs/simple-php-vk-auth/config.php
