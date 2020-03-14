@@ -1,16 +1,11 @@
 <?php
-class Controller 
+abstract class Controller 
 {
     private $model;
     private $view;
-    private $pageData = array();
+    private $action;
+    private $pageTemplate;
+    private $pageData;
 
-    public function __constructor() 
-    {
-        $this->view = new View();
-        $this->model = new Model();
-    }
-
-    
 }
 ?>

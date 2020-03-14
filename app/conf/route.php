@@ -1,48 +1,61 @@
 <?php
 class Routing 
 {
-    public function buildRoute()
+    private $controllerName = "Index";
+    private $action = "main";
+    const COUNT_SECTIONS = 2; //http://localhost/1/2 в ссылке возможны только 2 секции
+
+    public function buildRoute():void
     {
-        //default
-        $controllerName = "IndexController";
-        $modelName = "IndexModel";
-        $action = "index";
-
-        $route = $this->_parseURI();
-
-        if(!empty($route["controller"]) && !empty($route["model"])){
-            $controllerName = $route["controller"];
-            $modelName = $route["model"];
-        }
-        $this->_includeFiles($controllerName, $modelName);
-        if(!empty($route["action"])) 
-            $action = $route["action"];
+        $this->_SetNames();
+        $this->_includeFiles();
     
-        $controller = new $controllerName();
+        $action = $this->action;
+        $controllerName = $this->controllerName . "Controller";
+
+        $controller = new $controllerName($action);
         $controller->$action();
     }
 
-    private function _parseURI():array
+    private function _setNames():void
     {
-        $result = [];
-        $uri = explode("/", $_SERVER['REQUEST_URI']);
+        $route = $this->_parseRequest();
+        if (!empty($route)){
+            for($i = count($route) - 1; $i < 0; $i--){
+                $section = ucfirst($route[$i]);
 
-        if(!empty($uri[1])) {
-            $result["controller"] = ucfirst($uri[1] . "Controller");
-            $result["model"] = ucfirst($uri[1] . "Model");
+                if(!empty($section)){
+                    if($this->_isController($section))
+                        $this->controllerName = $section;
+                    else 
+                        $this->action = lcfirst($section); 
+                }
+            }
         }
-        if(!empty($uri[2])){
-            $result["action"] = $uri[2];
-        }
-
-        return $result;
     }
 
-    private function _includeFiles($controllerName, $modelName)
+    private function _parseRequest():array
     {
-        require_once CONTROLLER_PATH . $controllerName . ".php";
+        $url = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
+        $route = explode("/", $url);
+        
+        if(count($route) - 1 == self::COUNT_SECTIONS)
+            return $route;
+        return [];
+    }
 
-        require_once MODEL_PATH . $modelName . ".php";
+    private function _isController($name):bool
+    {
+        if(is_file(($name) . "Controller.php"))
+            return true;
+        return false;
+    }
+
+    private function _includeFiles():void
+    {
+        require_once CONTROLLER_PATH . $this->controllerName . "Controller.php";
+
+        require_once MODEL_PATH . $this->controllerName . "Model.php";
     }
 
     public function errorPage(){
