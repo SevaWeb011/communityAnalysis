@@ -1,16 +1,15 @@
 <?php
 //Права, которые мы хотим получить (https://vk.com/dev/permissions)
 $scope = [
-    'nohttps', 
     'groups', 
     'photos', 
-    'friends', 
-    'offline' 
+    'friends'
+
 ];
 
-$protocol = 'http://'; //Если у вас есть SSL-сертификат, то оставляем, иначе меняем на http://
+$protocol = 'https://'; //Если у вас есть SSL-сертификат, то оставляем, иначе меняем на http://
 
-define('APP_URL', "$protocol" . $_SERVER['HTTP_HOST'].'/index.php'); //Ваш сайт/web-приложение
+define('APP_URL', "$protocol" . $_SERVER['HTTP_HOST']); //Ваш сайт/web-приложение
 define('REDIRECT_URL', "$protocol" . $_SERVER['HTTP_HOST']. '/libs/simple-php-vk-auth/auth.php'); //Ссылка на скрипт авторизации через вк (файл auth.php, не путать с главной страницей вашего сайта, или той, на которой расположена кнопка 'Авторизоваться'. Ссылка на сам скрипт.)
 define('APP_ID', ''); //ID приложения (выдает ВК)
 define('APP_SECRET', ''); //Защищённый ключ (выдает ВК)
