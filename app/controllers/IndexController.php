@@ -24,8 +24,9 @@ class IndexController extends Controller
 
     public function main() 
     {
-        $this->pageData = $this->model->getDataIndex();
-        $this->view->render($this->pageTemplate, $this->pageData);
+        $userName = $this->model->getUserName();
+        $this->pageData["user_name"] = $userName;
+        $this->view->render($this->pageData);
     }
 }
 ?>

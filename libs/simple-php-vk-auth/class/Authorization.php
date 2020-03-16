@@ -79,7 +79,7 @@ class Authorization
         session_start();
         $_SESSION['token'] = $this->_token;
         $_SESSION['secret'] = $this->_secret;
-        $_SESSION['userId'] = $this->_userId;
+        $_SESSION['userID'] = $this->_userId;
     }
 
     private function _redirect($url):void

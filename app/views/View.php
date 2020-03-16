@@ -8,10 +8,10 @@ class View
     {
         $this->pageTemplate = $pageTemplate;
         $this->layout = $layout;
-    }
+    } 
 
-
-    public function render($pageData) 
+ 
+    public function render($pageData = [])
     {
         $pathTemp = $this->pageTemplate;
 		if (file_exists($pathTemp)) {
@@ -21,5 +21,5 @@ class View
 			require TEMPLATE_LAYOUT . $this->layout.'.tpl.php';
 		}
     }
-}
+} 
 ?>

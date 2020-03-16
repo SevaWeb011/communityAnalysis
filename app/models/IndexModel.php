@@ -1,24 +1,23 @@
 <?php
 class IndexModel extends Model {
-    const URL_AUTH = "http://localhost/libs/simple-php-vk-auth/auth.php";
-
-    public function getDataIndex()
+    public function getUserName()
     {
-        session_start();
-        $pageData = $this->_getReference();
-        return $pageData;
+        $userName = $this->_getUserNameResponse();
+        if(empty($userName))
+            $userName = "Гость";
+        return $userName;
     }
 
-    private function _getReference():array
+    private function _getUserNameResponse()
     {
-        if(empty($_SESSION["token"])){
-            $result['auth']['title'] = "Авторизоваться через VK";
-            $result['auth']['src'] = self::URL_AUTH;
-        } else{
-            $result['auth']['title'] = "Выход из приложения";
-            $result['auth']['src'] = self::URL_AUTH . "/?logout=";
+        $userName = "";
+        if(Request::isUserToken()){
+            $id = $_SESSION["userID"];
+            $token = $_SESSION["token"];
+            $user = new User($token);
+            $userName = $user->getUserName($id);
         }
-        return $result;
+        return $userName;
     }
 }
 ?>

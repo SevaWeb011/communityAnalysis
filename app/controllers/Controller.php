@@ -6,6 +6,5 @@ abstract class Controller
     private $action;
     private $pageTemplate;
     private $pageData;
-
 }
 ?>

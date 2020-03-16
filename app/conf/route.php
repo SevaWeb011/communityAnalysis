@@ -12,18 +12,18 @@ class Routing
     
         $action = $this->action;
         $controllerName = $this->controllerName . "Controller";
-
         $controller = new $controllerName($action);
         $controller->$action();
+
     }
 
     private function _setNames():void
     {
         $route = $this->_parseRequest();
+        $countRoute = count($route) - 1;
         if (!empty($route)){
-            for($i = count($route) - 1; $i < 0; $i--){
+            for($i = $countRoute; $i > 0; $i--){
                 $section = ucfirst($route[$i]);
-
                 if(!empty($section)){
                     if($this->_isController($section))
                         $this->controllerName = $section;
@@ -46,8 +46,9 @@ class Routing
 
     private function _isController($name):bool
     {
-        if(is_file(($name) . "Controller.php"))
-            return true;
+        if(is_file(CONTROLLER_PATH . ($name) . "Controller.php"))
+            if(is_file(MODEL_PATH . ($name) . "Model.php"))
+                return true;
         return false;
     }
 
