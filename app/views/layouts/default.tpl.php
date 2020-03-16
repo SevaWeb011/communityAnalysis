@@ -7,9 +7,7 @@
         </head>
         <link href="/app/public/styles/dashboard.css" rel="stylesheet">
         <link href="/app/public/styles/bootstrap.css" rel="stylesheet">
-        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css">
         <script src="/app/public/scripts/jquery.js"></script>
-        <script src="/app/public/scripts/form.js"></script>
         <script src="/app/public/scripts/popper.js"></script>
         <script src="/app/public/scripts/bootstrap.js"></script>
     </head>

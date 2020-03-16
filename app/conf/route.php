@@ -9,11 +9,13 @@ class Routing
     {
         $this->_SetNames();
         $this->_includeFiles();
-    
         $action = $this->action;
         $controllerName = $this->controllerName . "Controller";
         $controller = new $controllerName($action);
-        $controller->$action();
+        if(method_exists($controller, $action))
+            $controller->$action();
+        else 
+            echo "узбагойся";
 
     }
 
@@ -59,7 +61,8 @@ class Routing
         require_once MODEL_PATH . $this->controllerName . "Model.php";
     }
 
-    public function errorPage(){
+    public function errorPage()
+    {
         
     }
 

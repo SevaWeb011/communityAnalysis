@@ -4,7 +4,7 @@ class IndexModel extends Model {
     {
         $userName = $this->_getUserNameResponse();
         if(empty($userName))
-            $userName = "Гость";
+            $userName = "гость";
         return $userName;
     }
 
