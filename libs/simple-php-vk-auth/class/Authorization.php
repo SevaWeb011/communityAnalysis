@@ -33,7 +33,7 @@ class Authorization
 
     private function _callExeption($message, $code = 0, $previous = null):void
     {
-        throw new authorizationExeptions ($message, $code, $previous);
+        throw new authorizationExeptions ($message, $code, $previous); 
     }
     
     public function authorization()
@@ -97,7 +97,7 @@ class Authorization
 
     public function logout():void
     {
-        session_start();
+        session_start(); 
         session_destroy();
         $this->_redirect(APP_URL);
     }

@@ -11,14 +11,15 @@ class View
     } 
 
  
-    public function render($pageData = [])
+    public function render($pageData = []):void
     {
         $pathTemp = $this->pageTemplate;
+        
 		if (file_exists($pathTemp)) {
             ob_start();
 			require $pathTemp;
-			$content = ob_get_clean();
-			require TEMPLATE_LAYOUT . $this->layout.'.tpl.php';
+            $content = ob_get_clean();
+			require LAYOUT_PATH . $this->layout.'.tpl.php';
 		}
     }
 } 

@@ -1,5 +1,5 @@
 <?php
-class IndexController extends Controller 
+class CalculationController extends Controller 
 {
     private $model;
     private $view;
@@ -11,23 +11,21 @@ class IndexController extends Controller
     public function __construct($action)
     {
         $this->action = $action;
-        $this->model = new IndexModel();
+        $this->model = new CalculationModel();
         $this->_setTemplate();
         $this->view = new View($this->pageTemplate);
     }
 
     private function _setTemplate():string
     {   
-        $template = ROOT . "/views/main/" . $this->action . ".tpl.php";
+        $template = ROOT . "/views/calculation/" . $this->action . ".tpl.php";
         $this->pageTemplate = $template;
         return $template;
     }
- 
-    public function main() 
+
+    public function start() 
     {
-            $userName = $this->model->getUserName();
-            $this->pageData["user_name"] = $userName;
-            $this->view->render($this->pageData);
+        $this->view->render();
     } 
 }
 ?>

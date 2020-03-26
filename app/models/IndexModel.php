@@ -11,7 +11,7 @@ class IndexModel extends Model {
     private function _getUserNameResponse()
     {
         $userName = "";
-        if(Request::isUserToken()){
+        if(User::isUserToken()){
             $id = $_SESSION["userID"];
             $token = $_SESSION["token"];
             $user = new User($token);

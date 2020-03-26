@@ -7,6 +7,7 @@
         </head>
         <link href="/app/public/styles/dashboard.css" rel="stylesheet">
         <link href="/app/public/styles/bootstrap.css" rel="stylesheet">
+        <link href="/app/public/styles/style.css" rel="stylesheet">
         <script src="/app/public/scripts/jquery.js"></script>
         <script src="/app/public/scripts/popper.js"></script>
         <script src="/app/public/scripts/bootstrap.js"></script>
@@ -21,7 +22,7 @@
         </li>
       </ul>
     </nav>
-  <?php if (Request::isUserToken()): ?>
+  <?php if (User::isUserToken()): ?>
     <div class="container-fluid">
       <div class="row">
         <nav class="col-md-2 d-none d-md-block bg-light sidebar">
@@ -34,7 +35,7 @@
                 </a>
               </li>
               <li class="nav-item">
-                <a class="nav-link" href="#">
+                <a class="nav-link" href="/calculation/start">
                   <span data-feather="zap"></span>
                   Анализ сообщества
                 </a>

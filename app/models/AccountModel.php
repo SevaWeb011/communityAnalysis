@@ -9,7 +9,7 @@ class AccountModel extends Model {
 
     public function getLogoutService():string
     {
-        return $_SERVER["HTTP_HOST"] . self::URL_AUTH . "/?logout=";
+        return "https://" . HOST . self::URL_AUTH . "/?logout=";
     }
 }
 ?>

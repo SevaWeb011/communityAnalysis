@@ -8,7 +8,7 @@ class DB
         $host = DB_HOST;
         $db = DB_NAME;
 
-        $connect = new PDO ("mysql:dbname=$db;host=$host", $user, $pass);
+        $connect = new PDO("mysql:dbname=$db;host=$host", $user, $pass);
         return $connect;
     }
 }

@@ -1,30 +1,35 @@
 <?php
 class User extends Request
 {
+
+    public static function isUserToken():bool
+    {
+        if (!empty($_SESSION["token"]) && !empty($_SESSION["userID"]))
+            return true;
+        else
+            return false;
+    }
+    
     public function getUserName($id):string
     {
         $name = "";
         $userData = $this->_getUserData($id);
-        $userArray = json_decode($userData, true);
-        $name = $userArray["response"][0]["first_name"];
+        $name = $userData["response"][0]["first_name"];
         return $name;
     }
 
-    private function _getUserData($id):string
+    private function _getUserData($id):array
     {
         $method = "users.get";
-        $request_params = array(
+        $requestParams = array(
             "user_ids" => $id,
             "name_case" => "nom", 
-            'v' => '5.103',
+            'v' => self::VERSION_API,
             'access_token' => $this->token
             );
-        $get_params = http_build_query($request_params);
+        $getParams = http_build_query($requestParams);
 
-        $request = self::PATH_SERVICE . "/$method?" .$get_params;
-         $request = trim($request);
-        $response = file_get_contents($request);
-        return $response;
+        return $this->_sendRequest($method, $getParams);
     }
 }
 ?>

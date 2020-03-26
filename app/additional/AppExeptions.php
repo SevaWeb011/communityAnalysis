@@ -1,7 +1,5 @@
 <?php
-
-
-class authorizationExeptions extends Exception {
+class AppExeptions extends Exception {
 
     public function __construct($message = "", $code = 0, Throwable $previous = null) {
         parent::__construct($message, $code, $previous);
@@ -9,7 +7,7 @@ class authorizationExeptions extends Exception {
 
     public function __toString():String {
         $dirError = "errors";
-        $error = "[Exception]: возникла ошибка внутри сервиса Авторизации(simple-vk-php)::";
+        $error = "[Exception]: возникла ошибка внутри приложения (/app):";
         $error .= "Время:".date("H:i:s");
         $error .= "\r\n[Exception]: текст: {$this->getMessage()}";
         $error .= "\r\n[Exception]: код ошибки: {$this->getCode()}";

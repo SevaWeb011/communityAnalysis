@@ -4,8 +4,6 @@ class AccountController extends Controller
     private $model;
     private $view;
     private $action;
-    private $pageTemplate;
-    private $pageData;
 
 
     public function __construct($action)
@@ -22,8 +20,7 @@ class AccountController extends Controller
 
     public function logout():void
     {
-        $url = $this->model->getLoginService();
-        $url .= "/?logout=";
+        $url = $this->model->getLogoutService();
         header("Location: " . $url);
     }
 }
