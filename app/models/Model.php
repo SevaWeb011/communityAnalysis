@@ -7,5 +7,10 @@ class Model
     {
         $this->db = DB::connectToDB();
     }
+
+    protected function goHome():void
+    {
+        header("Location: /");
+    }
 }
 ?>

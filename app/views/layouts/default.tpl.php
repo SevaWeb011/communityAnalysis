@@ -71,10 +71,12 @@
           </div>
         </nav>
 
+
         
                         <?php endif; ?>
         <?php echo $content; ?>
-        </div></div>
+  </div> </div>
+
         <hr>
 
     </body>

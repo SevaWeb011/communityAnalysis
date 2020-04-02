@@ -4,6 +4,7 @@ RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
 RewriteRule . index.php
 RewriteRule ^(app) - [F,L]
+RewriteRule ^(.vscode) - [F,L]
 
 <files .gitignore>
 order allow,deny

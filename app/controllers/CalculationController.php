@@ -27,5 +27,10 @@ class CalculationController extends Controller
     {
         $this->view->render();
     } 
+
+    public function analysis() //async Action
+    {
+        $this->model->getNewReport();//TODO return id report
+    } 
 }
 ?>
