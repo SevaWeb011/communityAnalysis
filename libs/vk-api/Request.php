@@ -43,7 +43,6 @@
         {
             $code = str_replace($arg, $replace, $code);
         }
-
         return $code;
     }
 }

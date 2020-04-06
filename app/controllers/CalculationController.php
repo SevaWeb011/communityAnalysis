@@ -1,4 +1,4 @@
-<?php
+<?php 
 class CalculationController extends Controller 
 {
     private $model;

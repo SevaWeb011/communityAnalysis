@@ -3,30 +3,46 @@ class Like extends Request
 {
     public function getLikeList($id, $itemList)
     {
-        $likeList = [];
-        foreach ($itemList as $wall){
-            $list = $this->_getResponse($id,$wall);
-            $likeList = array_merge($likeList, $list);
-        }
-        var_dump($likeList);
+        $list = $this->_getPartList($itemList);
+        $ScriptVK = "listLikes";
+        $replaces = [
+            '$wallList' => $list,
+            '$ownerID' => "-".$id,
+            '$version' => self::VERSION_API
+        ];
+
+        $code = $this->_initScriptVK($ScriptVK, $replaces);
+        $resp = $this->_getLikeList($code);
+        var_dump($resp);
+        exit;
+
     }
 
-    private function _getResponse($id, $item):array
+
+    private function _getLikeList($code)
     {
-        $method = "likes.getList";
+        $method = "execute";
         $requestParams = array(
-            "type" => "post",
-            "owner_id" => "-".$id,
-            "item_id" => $item,
-            "count" => 100,
+            "code" => $code,
             'access_token' => $this->token,
             "v" => self::VERSION_API
             );
             $getParams = http_build_query($requestParams);
 
         $response =  $this->_sendRequest($method, $getParams);
- 
-        return $response;
+        return $response["response"];
+    } 
+
+    private function _getPartList($list):string
+    {
+        for ($i = 0; $i < 25; $i++)
+        {
+            $resultList[$i] = $list[$i];
+
+            if(empty($list[$i + 1]))
+                break; 
+        }
+        return json_encode($resultList);
     }
 }
 ?>

@@ -1,12 +1,13 @@
 <?php
 class Wall extends Request
 {
-    public function getListID($id, $maxCountWall = 200):array
+    public function getListID($id, $maxCountWall = 100):array
     {
         $ScriptVK = "listWall";
         $replaces = [
             '$maxCountWall' => $maxCountWall,
-            '$ownerID' => "-".$id
+            '$ownerID' => "-".$id,
+            '$version' => self::VERSION_API
         ];
 
         $code = $this->_initScriptVK($ScriptVK, $replaces);

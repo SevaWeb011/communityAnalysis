@@ -13,12 +13,26 @@ class User extends Request
     public function getUserName($id):string
     {
         $name = "";
-        $userData = $this->_getUserData($id);
+        $userData = $this->_getUserName($id);
         $name = $userData["response"][0]["first_name"];
         return $name;
     }
 
-    private function _getUserData($id):array
+    public function getActionLists($groupID, $recordID):array
+    {
+        $ScriptVK = "getUserActions";
+        $replaces = [
+            '$ownerID' => "-".$groupID,
+            '$version' => self::VERSION_API,
+            '$recordID' => $recordID
+        ];
+
+        $code = $this->_initScriptVK($ScriptVK, $replaces);
+        return $this->_getActionLists($code);
+
+    }
+    
+    private function _getUserName($id):array
     {
         $method = "users.get";
         $requestParams = array(
@@ -31,5 +45,20 @@ class User extends Request
 
         return $this->_sendRequest($method, $getParams);
     }
+
+    private function _getActionLists($code):array
+    {
+        $method = "execute";
+        $requestParams = array(
+            "code" => $code,
+            'access_token' => $this->token,
+            "v" => self::VERSION_API
+            );
+            $getParams = http_build_query($requestParams);
+        $response =  $this->_sendRequest($method, $getParams);
+        return $response["response"];
+    } 
+
+    
 }
 ?>
