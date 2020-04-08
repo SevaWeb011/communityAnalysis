@@ -2,16 +2,9 @@
 namespace App;
 class UserActions
 {
-    private $userID;
-    private $communityID;
     private $likes = [];
     private $comments = [];
     private $reposts = [];
-    
-    public function __construct($idGroup)
-    {
-        $this->idGroup = $idGroup;
-    }
 
     public function addLike($recordID):void
     {

@@ -1,7 +1,6 @@
 <?php
 class Group extends Request
 {
-
     public function getID($id):int //arg - string or int
     {
         $groupData = $this->_getDataGroup($id);
@@ -10,6 +9,18 @@ class Group extends Request
         else
             $groupID = 0;
         return $groupID;  
+    }
+
+    public function getUserGroup($idUser)
+    {
+        $ScriptVK = "getUserGroup";
+        $replaces = [
+            '$idUser' => $idUser,
+            '$version' => self::VERSION_API
+        ];
+
+        $code = $this->_initScriptVK($ScriptVK, $replaces);
+        return $this->_sendExecute($code);
     }
 
     private function _getDataGroup($id)

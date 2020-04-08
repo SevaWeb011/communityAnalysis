@@ -45,5 +45,18 @@
         }
         return $code;
     }
+
+    protected function _sendExecute($code):array
+    {
+        $method = "execute";
+        $requestParams = array(
+            "code" => $code,
+            'access_token' => $this->token,
+            "v" => self::VERSION_API
+            );
+            $getParams = http_build_query($requestParams);
+        $response =  $this->_sendRequest($method, $getParams);
+        return $response["response"];
+    }
 }
 ?>

@@ -5,15 +5,17 @@ class User
     private $id;
     private $actions;
     private $activeScore;
+    private $name;
 
     public function __construct($id)
     {
         $this->id = $id;
+        $this->actions = new UserActions();
     }
 
-    public function setActions($idGroup)
+    public function getID():int
     {
-        $this->actions = new UserActions($idGroup);
+        return $this->id;
     }
 
     public function addLike($recordID):void
@@ -28,7 +30,18 @@ class User
 
     public function addComment($recordID):void
     {
-        $this->actions->addComment($recordID);;
+        $this->actions->addComment($recordID);
+    }
+
+
+    public function setName($name):void
+    {
+       $this->name = $name;
+    }
+
+    public function getName():String
+    {
+        return $this->name;
     }
 
     public function getLikes():array
@@ -46,6 +59,7 @@ class User
         return $this->actions->getComments();
     }
     
+
     public function setActiveScore():void
     {
         $scoreLike = count($this->actions->getLikes());

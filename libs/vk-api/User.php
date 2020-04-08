@@ -18,6 +18,21 @@ class User extends Request
         return $name;
     }
 
+    public function getUserFullName($list):array
+    {
+        $result=[];
+        $listID = implode(",",$list);
+        $userData = $this->_getUserName($listID);
+        foreach($userData["response"] as $key=>$user){
+            $last = $user["last_name"];
+            $name = $user["first_name"];
+            $id = $user["id"];
+            $result[$id] = $name." ".$last;
+        }
+
+        return $result;
+    }
+
     public function getActionLists($groupID, $recordID):array
     {
         $ScriptVK = "getUserActions";
@@ -28,7 +43,10 @@ class User extends Request
         ];
 
         $code = $this->_initScriptVK($ScriptVK, $replaces);
-        return $this->_getActionLists($code);
+        $resp = $this->_sendExecute($code);
+        if(isset($resp["error"])) 
+            throw new VKExeptions('Получена ошибка от внешнего сервиса: '.$resp["error"]["error_msg"]);
+        return $resp;
 
     }
     
@@ -45,20 +63,5 @@ class User extends Request
 
         return $this->_sendRequest($method, $getParams);
     }
-
-    private function _getActionLists($code):array
-    {
-        $method = "execute";
-        $requestParams = array(
-            "code" => $code,
-            'access_token' => $this->token,
-            "v" => self::VERSION_API
-            );
-            $getParams = http_build_query($requestParams);
-        $response =  $this->_sendRequest($method, $getParams);
-        return $response["response"];
-    } 
-
-    
 }
 ?>

@@ -7,4 +7,5 @@
 require_once($_SERVER["DOCUMENT_ROOT"]. '/app/additional/AppExeptions.php');
 require_once($_SERVER["DOCUMENT_ROOT"]. '/app/additional/User.php');
 require_once($_SERVER["DOCUMENT_ROOT"]. '/app/additional/UserActions.php');
+require_once($_SERVER["DOCUMENT_ROOT"]. '/app/additional/Group.php');
 ?>
