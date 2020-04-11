@@ -2,7 +2,7 @@
 
 class Db {
 
-	protected $db;
+	private $db;
 
 	public function __construct() {
 		// я включил исключения для PDO, теперь ошибки будут выводится
@@ -49,7 +49,14 @@ class Db {
 
 	public function rollback():void {
 		$this->db->rollback();
-	}
+    }
+    
+    public function exec($commands)
+    {
+        foreach ($commands as $command) {
+            $this->db->exec($command);
+        }
+    }
 
 	//функция для доавление записи
 	public function constructorQueryInsert($tableName, $params):string{
@@ -64,7 +71,8 @@ class Db {
 			$query = rtrim($query, ",");
 			$query .= ')';
 				return $query;		
-	}
+    }
+
 
 } 
 ?>

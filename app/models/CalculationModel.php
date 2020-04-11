@@ -29,10 +29,10 @@ class CalculationModel extends Model
    private function _getBestUsers():array
    {
         $idGroup = $this->_getGroupID();
-        $listWallID = $this->wall->getListID($idGroup, 200);
+        $listWallID = $this->wall->getListID($idGroup, 100);
 
         $this->_createAllActiveUsers($idGroup, $listWallID);
-        $this->_cropList($this->userList, 150);
+        $this->_cropList($this->userList, 100);
         usort($this->userList, 'sortByUserActive');
         $this->_setUserNames($this->userList);
             return $this->userList;
@@ -91,7 +91,7 @@ class CalculationModel extends Model
             $this->_createActiveUsers($actions, $id);
             $countSend += 1;//!!!
 
-            if($countSend == 50) break;//!!!
+            if($countSend == 5) break;//!!!
         }
         $this->_arrayConvertToList($this->userList);
    }

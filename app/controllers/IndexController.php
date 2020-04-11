@@ -28,6 +28,9 @@ class IndexController extends Controller
             $userName = $this->model->getUserName();
             $this->pageData["user_name"] = $userName;
             $this->view->render($this->pageData);
+            $db = new Migrate();
+            //$db->createTables();
+            //$db->removeTables();
     } 
 }
 ?>
