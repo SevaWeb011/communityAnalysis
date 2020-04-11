@@ -6,20 +6,16 @@ class Group
     private $name;
     private $photo;
     private $activeUsers = [];
+    private $countSubscriber;
 
     public function __construct($id)
     {
         $this->id = $id;
     }
 
-    public function setName($name):void
+    public function getID()
     {
-        $this->name=$name;
-    }
-
-    public function setPhoto($photo):void
-    {
-        $this->photo=$photo;
+        return $this->id;
     }
 
     public function getName()
@@ -32,11 +28,6 @@ class Group
         return $this->photo;
     }
 
-    public function addActiveUsers($id):void
-    {
-        $this->activeUsers[] = $id;
-    }
-
     public function getActiveUsers():array
     {
         return $this->activeUsers;
@@ -46,4 +37,32 @@ class Group
     {
         return count($this->activeUsers);
     }
+
+    public function getCountSubscriber():int
+    {
+        return $this->countSubscriber;
+    }
+
+    public function setCountSubscriber($count):void
+    {
+        $this->countSubscriber = $count;
+    }
+
+
+    public function setName($name):void
+    {
+        $this->name=$name;
+    }
+
+    public function setPhoto($photo):void
+    {
+        $this->photo=$photo;
+    }
+
+
+    public function addActiveUsers($id):void
+    {
+        $this->activeUsers[] = $id;
+    }
+
 }

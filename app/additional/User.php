@@ -13,26 +13,14 @@ class User
         $this->actions = new UserActions();
     }
 
+    public function getUserActive()
+    {
+        return $this->actions;
+    }
     public function getID():int
     {
         return $this->id;
     }
-
-    public function addLike($recordID):void
-    {
-        $this->actions->addLike($recordID);
-    }
-
-    public function addRepost($recordID):void
-    {
-        $this->actions->addRepost($recordID);
-    }
-
-    public function addComment($recordID):void
-    {
-        $this->actions->addComment($recordID);
-    }
-
 
     public function setName($name):void
     {
@@ -43,22 +31,6 @@ class User
     {
         return $this->name;
     }
-
-    public function getLikes():array
-    {
-        return $this->actions->getLikes();
-    }
-
-    public function getReposts():array
-    {
-        return $this->actions->getReposts();
-    }
-
-    public function getComments():array
-    {
-        return $this->actions->getComments();
-    }
-    
 
     public function setActiveScore():void
     {

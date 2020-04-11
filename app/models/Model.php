@@ -1,5 +1,5 @@
 <?php
-abstract class Model 
+ class Model 
 {
     protected $wall;
     protected $like;
@@ -11,13 +11,11 @@ abstract class Model
     public function __construct() 
     {
         if (User::isUserToken())
-        $this->token = $_SESSION["token"];
-    else 
-        $this->goHome();
+            $this->token = $_SESSION["token"];
         $this->user = new User($this->token);
         $this->wall = new Wall($this->token);
         $this->group = new Group($this->token);
-        $this->db = DB::connectToDB();
+        $this->db = new Db();
     }
 
     protected function goHome():void
