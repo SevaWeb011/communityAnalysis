@@ -20,8 +20,8 @@ class CalculationModel extends Model
         $reportID = 0;
         $bestUsers = $this->_getBestUsers();
         $groups = $this->_getPopularCommunity($bestUsers);
-        var_dump($groups);
-        $this->_saveReport($bestUsers, $groups);
+        $this->_getReportID($bestUsers, $groups);
+
         printTime($start);
         return $reportID;
    } 
@@ -36,28 +36,6 @@ class CalculationModel extends Model
         usort($this->userList, 'sortByUserActive');
         $this->_setUserNames($this->userList);
             return $this->userList;
-   }
-
-   private function _getPopularCommunity($userList):array
-   {
-       foreach($userList as $user){
-            $time = microtime(true);
-            $idUser = $user->getID();
-            $groups = $this->group->getUserGroup($idUser);
-
-                if(empty($groups["error"]))
-                    $this->_createGroups($groups, $idUser);
-       }
-        $this->_arrayConvertToList($this->groupList);
-        $this->_cropList($this->groupList, 25);
-        usort($this->groupList, 'sortByCountUser');
-        $this->_initGroups($this->groupList);
-            return $this->groupList;
-   }
-
-   private function _saveReport($users, $groups):int
-   {
-        return 0;
    }
 
    private function _getGroupID()
@@ -184,6 +162,23 @@ class CalculationModel extends Model
         echo $err; 
    }
 
+   private function _getPopularCommunity($userList):array
+   {
+       foreach($userList as $user){
+            $time = microtime(true);
+            $idUser = $user->getID();
+            $groups = $this->group->getUserGroup($idUser);
+
+                if(empty($groups["error"]))
+                    $this->_createGroups($groups, $idUser);
+       }
+        $this->_arrayConvertToList($this->groupList);
+        $this->_cropList($this->groupList, 25);
+        usort($this->groupList, 'sortByCountUser');
+        $this->_initGroups($this->groupList);
+            return $this->groupList;
+   }
+
    private function _createGroups($groups, $idUser):void
    {
         foreach($groups as $id){
@@ -247,11 +242,82 @@ class CalculationModel extends Model
             $offset += 25;
             $this->_initGroupsCountSubscribers($ids, $groupsList, $offset);
         }
-
-
    }
 
-}
+   private function _getReportID($users, $groups):int
+   {
+        try{
+            $this->db->beginTransaction();
+            $report = $this->saveReport();
+            $this->saveUsers($users, $report);
+            $this->saveGroups($groups, $report);
+            $this->db->commit();
+        } catch ( PDOException $e ) { 
+        $this->db->rollback();
+        throw $e;
+        } 
+        return 0;
+   }
+
+   private function saveReport()
+   {
+        $tableName = "reports";
+        $params = [
+            "group_id" => $this->idGroup,
+            "count_wall" => 100
+        ];
+
+        $this->db->add($tableName,$params);
+
+        $report = $this->db->lastInsertID();
+        $tableName = "users_app";
+        $params = [
+            "id" => User:: getUserAppID(),
+            "report_id" => $report
+        ];
+
+        $this->db->add($tableName,$params);
+
+        return $report;
+   }
+
+   private function saveUsers($users, $report)
+   {
+    $tableName = "best_users";
+       foreach($users as $user){
+           $actions = $user->getUserActive();
+            $params = [
+                "user_id" => $user->getID(),
+                "name" => $user->getName(),
+                "count_like" => $actions->getCountLike(),
+                "count_comment" => $actions->getCountComment(),
+                "count_repost" => $actions->getCountRepost(),
+                "active_score" => $user->getActiveScore(),
+                "report_id" => $report
+            ];
+
+            $this->db->add($tableName,$params);
+        }
+   }
+
+   private function saveGroups($groups, $report)
+   {
+    $tableName = "group_list";
+       foreach($groups as $group){
+            $params = [
+                "group_id" => $group->getID(),
+                "name" => $group->getName(),
+                "count_active_user" => $group->getCountActiveUsers(),
+                "count_subscriber" => $group->getCountSubscriber(),
+                "photo" => $group->getPhoto(),
+                "report_id" => $report
+            ];
+            
+            $this->db->add($tableName,$params);
+        }
+   }
+      
+    }
 
 function sortByUserActive($user1, $user2):int
     {

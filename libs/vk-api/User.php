@@ -9,6 +9,12 @@ class User extends Request
         else
             return false;
     }
+
+    public static function getUserAppID()
+    {
+        if(!empty($_SESSION["userID"]))
+        return $_SESSION["userID"];
+    }
     
     public function getUserName($id):string
     {

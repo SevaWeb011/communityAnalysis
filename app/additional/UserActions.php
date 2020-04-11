@@ -35,5 +35,20 @@ class UserActions
     {
         return $this->comments;
     }
+
+    public function getCountLike():int
+    {
+        return count($this->likes);
+    }
+
+    public function getCountRepost():int
+    {
+        return count($this->reposts);
+    }
+
+    public function getCountComment():int
+    {
+        return count($this->comments);
+    }
 }
 ?>

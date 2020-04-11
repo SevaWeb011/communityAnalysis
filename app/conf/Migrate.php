@@ -15,10 +15,10 @@ class Migrate
                 report_id INTEGER(11) NOT NULL
               )',
 
-            'CREATE TABLE IF NOT EXISTS report (
+            'CREATE TABLE IF NOT EXISTS reports (
                 id  INTEGER(11) PRIMARY KEY NOT NULL AUTO_INCREMENT,
                 group_id INTEGER(15) NOT NULL,
-                date_analysis DATETIME NOT NULL,
+                date_analysis TIMESTAMP NOT NULL,
                 count_wall INTEGER(5) NOT NULL
             )',
 
@@ -40,23 +40,24 @@ class Migrate
                 count_like INTEGER(10) NOT NULL,
                 count_comment INTEGER(10) NOT NULL,
                 count_repost INTEGER(10) NOT NULL,
-                active_score INTEGER(10) NOT NULL
+                active_score INTEGER(10) NOT NULL,
+                report_id INTEGER(11) NOT NULL
             )'
         ];
 
-        $this->db->exec($commands);
-                  
+        $this->db->someQuery($commands);
+                 
     }
 
     public function removeTables()
     {
         $commands = [
             "DROP TABLE users_app",
-            "DROP TABLE report",
+            "DROP TABLE reports",
             "DROP TABLE group_list",
             "DROP TABLE best_users"
         ];
-        $this->db->exec($commands);
+        $this->db->someQuery($commands);
     }
 }
 ?>

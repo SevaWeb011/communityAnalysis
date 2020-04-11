@@ -35,7 +35,8 @@ class Db {
 			return $result->fetchColumn();
 	}
 
-	public function lastInsertId() {
+	public function lastInsertID() 
+	{
 		return $this->db->lastInsertId();
 	}
 
@@ -51,26 +52,27 @@ class Db {
 		$this->db->rollback();
     }
     
-    public function exec($commands)
+    public function someQuery($commands)
     {
         foreach ($commands as $command) {
             $this->db->exec($command);
         }
     }
 
-	//функция для доавление записи
-	public function constructorQueryInsert($tableName, $params):string{
+	//функция для добавление записи
+	public function add($tableName, $params):object
+	{
 		$query = "INSERT INTO `$tableName` (";
-			foreach($params as $key=>$value)
+			foreach($params as $key=>$val)
 				$query.="`$key`,";
 			$query = rtrim($query, ",");
 			$query.=') VALUES (';
-			foreach ($params as $key=>$value)
+			foreach ($params as $key=>$val)
 				$query.=":$key, ";
 			$query = trim($query);	
 			$query = rtrim($query, ",");
 			$query .= ')';
-				return $query;		
+			return $this->query($query, $params);	
     }
 
 
