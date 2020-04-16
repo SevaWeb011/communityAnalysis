@@ -47,5 +47,11 @@ class ReportsModel extends Model {
         }
         return $result;
     }
+
+    public function getGroups():array
+    {
+
+        return [];
+    }
 }
 ?>

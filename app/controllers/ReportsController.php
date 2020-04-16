@@ -29,6 +29,7 @@ class ReportsController extends Controller
     public function select():void
     {
         $this->pageData["title"] = "Отчет";
+        $this->pageData["groups"] = $this->model->getGroups();
         $this->view->render($this->pageData);
     }
 

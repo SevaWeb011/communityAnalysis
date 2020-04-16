@@ -22,12 +22,13 @@
 
                 <table class="table table-bordered">
                     <thead>
-                        <tr class="table-info">
-                        <th>№ Отчета</th>
-                        <th>Время</th>
-                        <th>Название группы</th>
-                        <th>ID группы</th>
-                        <th>Проверено записей</th>
+                        <tr class="table-success">
+                        <th>№ Группы</th>
+                        <th>Логотип</th>
+                        <th>Название</th>
+                        <th>ID</th>
+                        <th title = "При анализе группы формируется лист из самых активных подписчиков. У них проверяются сообщества, самые встречаемые сообщества попадают в отчет.">Кол-во пересечений*</th>
+                        <th>Кол-во подписчиков</th>
                         </tr>
                     </thead>
 
@@ -38,7 +39,23 @@
    
 
 
-  <div class="tab-pane fade" id="activeUsers">2 </div>
+  <div class="tab-pane fade" id="activeUsers">
+  <table class="table table-bordered">
+                    <thead>
+                        <tr class="table-info">
+                        <th>№ Подписчика</th>
+                        <th>ФИ</th>
+                        <th>ID</th>
+                        <th>Кол-во лайков</th>
+                        <th title="видно для администраторов сообщества">Кол-во репостов*</th>
+                        <th>Очки рейтинга</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                    </tbody>
+                </table>
+  </div>
 </div>
 </div>
 </div>

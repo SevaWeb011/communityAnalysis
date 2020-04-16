@@ -57,7 +57,7 @@ function redirect(report)
 {
   var f = document.createElement("form");
   f.setAttribute('method',"post");
-  f.setAttribute('action',"/reports/all");
+  f.setAttribute('action',"/reports/select");
  
   var i = document.createElement("input");
   i.setAttribute('type',"text");
