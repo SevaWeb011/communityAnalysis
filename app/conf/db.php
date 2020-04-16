@@ -35,6 +35,11 @@ class Db {
 			return $result->fetchColumn();
 	}
 
+	public function getAllTable($tableName, $condition = "")
+	{
+		$sql = "SELECT * FROM `$tableName`".$condition.";";
+	}
+
 	public function lastInsertID() 
 	{
 		return $this->db->lastInsertId();
@@ -57,7 +62,7 @@ class Db {
         foreach ($commands as $command) {
             $this->db->exec($command);
         }
-    }
+	}
 
 	//функция для добавление записи
 	public function add($tableName, $params):object

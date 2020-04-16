@@ -20,9 +20,10 @@ class CalculationModel extends Model
         $reportID = 0;
         $bestUsers = $this->_getBestUsers();
         $groups = $this->_getPopularCommunity($bestUsers);
-        $this->_getReportID($bestUsers, $groups);
-
-        printTime($start);
+        $reportID = $this->_getReportID($bestUsers, $groups);
+        if($reportID == 0)
+            $this->sendError("Неизвестная ошибка при анализе. Пожалуйста, свяжитесь с разработчиком");
+        //printTime($start);
         return $reportID;
    } 
 
@@ -41,7 +42,7 @@ class CalculationModel extends Model
    private function _getGroupID()
    {
         $inputID = $this->_getInputID(); 
-        $inputID = "itumor";//temporary !!!
+        //$inputID = "itumor";//temporary !!!
         $this->idGroup = $this->group->getID($inputID);
 
          if ($this->idGroup === 0){
@@ -56,6 +57,8 @@ class CalculationModel extends Model
        $post = "";
         if(isset($_POST["idCommunity"]))
             $post = $_POST["idCommunity"];
+        if(empty($post))
+            exit;
         $id = $this->_getValidInputID($post);
             return($id);
    }
@@ -63,13 +66,13 @@ class CalculationModel extends Model
    private function _createAllActiveUsers($idGroup, $listWallID):void
    {
        $userList = [];
-       $countSend = 0;//!!!
+       $count = 0;//!!!
         foreach($listWallID as $key=>$id){
             $actions = $this->user->getActionLists($idGroup, $listWallID[$key]);
             $this->_createActiveUsers($actions, $id);
-            $countSend += 1;//!!!
+            $count += 1;//!!!
 
-            if($countSend == 5) break;//!!!
+            if($count == 5) break;//!!!
         }
         $this->_arrayConvertToList($this->userList);
    }
@@ -246,6 +249,7 @@ class CalculationModel extends Model
 
    private function _getReportID($users, $groups):int
    {
+       $report = 0;
         try{
             $this->db->beginTransaction();
             $report = $this->saveReport();
@@ -256,7 +260,7 @@ class CalculationModel extends Model
         $this->db->rollback();
         throw $e;
         } 
-        return 0;
+        return $report;
    }
 
    private function saveReport()
@@ -264,6 +268,7 @@ class CalculationModel extends Model
         $tableName = "reports";
         $params = [
             "group_id" => $this->idGroup,
+            "group_name" => $this->group->getName($this->idGroup),
             "count_wall" => 100
         ];
 
@@ -272,7 +277,7 @@ class CalculationModel extends Model
         $report = $this->db->lastInsertID();
         $tableName = "users_app";
         $params = [
-            "id" => User:: getUserAppID(),
+            "user_id" => User:: getUserAppID(),
             "report_id" => $report
         ];
 
@@ -285,6 +290,7 @@ class CalculationModel extends Model
    {
     $tableName = "best_users";
        foreach($users as $user){
+           $user->setCountActions();
            $actions = $user->getUserActive();
             $params = [
                 "user_id" => $user->getID(),

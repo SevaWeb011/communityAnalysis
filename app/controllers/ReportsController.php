@@ -1,5 +1,5 @@
 <?php 
-class CalculationController extends Controller 
+class ReportsController extends Controller 
 {
     private $view;
     private $pageTemplate;
@@ -15,21 +15,22 @@ class CalculationController extends Controller
 
     private function _setTemplate():void
     {   
-        $template = ROOT . "/views/calculation/" . $this->action . ".tpl.php";
+        $template = ROOT . "/views/reports/" . $this->action . ".tpl.php";
         $this->pageTemplate = $template;
     }
 
-    public function start() 
+    public function all():void
     {
-        $this->pageData["title"] = "Анализ";
+        $this->pageData["title"] = "Все отчеты";
+        $this->pageData["reports"] = $this->model->getReports();
         $this->view->render($this->pageData);
-    } 
+    }
 
-    public function analysis() //async Action
+    public function select():void
     {
-        $report["report"] = $this->model->getNewReport();//TODO return id report
-        $report = json_encode($report);
-        echo $report;
-    } 
+        $this->pageData["title"] = "Отчет";
+        $this->view->render($this->pageData);
+    }
+
 }
 ?>

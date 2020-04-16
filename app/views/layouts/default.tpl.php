@@ -3,7 +3,7 @@
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-        <title> Главная </title>
+        <title> <?=$pageData["title"];?> </title>
         </head>
         <link href="/app/public/styles/dashboard.css" rel="stylesheet">
         <link href="/app/public/styles/bootstrap.css" rel="stylesheet">
@@ -23,6 +23,7 @@
       </ul>
     </nav>
   <?php if (User::isUserToken()): ?>
+  
     <div class="container-fluid">
       <div class="row">
         <nav class="col-md-2 d-none d-md-block bg-light sidebar">
@@ -41,7 +42,7 @@
                 </a>
               </li>
               <li class="nav-item">
-                <a class="nav-link" href="#">
+                <a class="nav-link" href="/reports/all">
                   <span data-feather="slack"></span>
                   Отчеты о сообществах
                 </a>
@@ -52,9 +53,11 @@
                             </li>
             </ul>
 
-           
+            
           </div>
         </nav>
+</div>
+
         <?php else: ?>
 <div class="container-fluid">
       <div class="row">
@@ -70,14 +73,33 @@
             </ul>
           </div>
         </nav>
-
+        </div>
 
         
                         <?php endif; ?>
+                      <div class="content-section">
         <?php echo $content; ?>
-  </div> </div>
-
+        </div>
+</div>
         <hr>
 
     </body>
 </html>
+<style> 
+html,body{
+  height: 100%;
+
+}
+.sidebar {
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	
+}
+
+.content-section {
+  min-height: 800px;
+}
+</style>

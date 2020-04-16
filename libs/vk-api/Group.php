@@ -11,6 +11,13 @@ class Group extends Request
         return $groupID;  
     }
 
+    public function getName($id):string
+    {
+        $groupData = $this->_getDataGroup($id);
+        $name = $groupData["response"][0]["name"];
+        return $name;
+    }
+
     public function getUserGroup($idUser)
     {
         $ScriptVK = "getUserGroup";
@@ -65,7 +72,8 @@ class Group extends Request
             );
         $getParams = http_build_query($requestParams);
 
-        return $this->_sendRequest($method, $getParams, $arrValidCode);
+        $data = $this->_sendRequest($method, $getParams, $arrValidCode);
+        return $data;
     }
 
 

@@ -1,15 +1,9 @@
 <?php
 class AccountController extends Controller 
 {
-    private $model;
-    private $view;
-    private $action;
-
-
-    public function __construct($action)
+    public function __construct($action, $model)
     {
-        $this->action = $action;
-        $this->model = new AccountModel();
+        parent::__construct($action, $model);
     }
 
     public function login():void

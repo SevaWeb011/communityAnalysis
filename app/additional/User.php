@@ -22,6 +22,16 @@ class User
         return $this->id;
     }
 
+    public function setCountActions():void
+    {
+        $likes = count($this->actions->getLikes());
+        $reposts = count($this->actions->getReposts());
+        $comments = count($this->actions->getComments());
+        $this->actions->setCountLike($likes);
+        $this->actions->setCountRepost($reposts);
+        $this->actions->setCountComment($comments);
+    }
+
     public function setName($name):void
     {
        $this->name = $name;

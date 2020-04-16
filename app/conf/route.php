@@ -1,8 +1,8 @@
 <?php
 class Routing 
 {
-    private $controllerName = "Index";
-    private $action = "main";
+    private $controllerName;
+    private $action;
     const COUNT_SECTIONS = 2; //http://localhost/controller(1)/action(2)?params в ссылке возможны только 2 секции
 
     public function buildRoute():void
@@ -12,9 +12,10 @@ class Routing
 
         $action = $this->action;
         $controllerName = $this->controllerName . "Controller";
+        $model = $this->controllerName . "Model";
         
         if(method_exists($controllerName, $action)){
-            $controller = new $controllerName($action);
+            $controller = new $controllerName($action, $model);
             $controller->$action();
         }
         else 
@@ -69,7 +70,9 @@ class Routing
 
     private function _defaultCall():void
     {
-            $controller = new IndexController("main");
+            require_once(MODEL_PATH."IndexModel.php");
+            require_once(CONTROLLER_PATH."IndexController.php");
+            $controller = new IndexController("main", "IndexModel");
             $controller->main();
     }
 

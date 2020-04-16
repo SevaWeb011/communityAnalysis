@@ -11,13 +11,14 @@ class Migrate
     {
         $commands = [
             'CREATE TABLE IF NOT EXISTS users_app (
-                id  INTEGER(15) PRIMARY KEY NOT NULL,
-                report_id INTEGER(11) NOT NULL
+                report_id INTEGER(11) PRIMARY KEY NOT NULL,
+                user_id  INTEGER(15) NOT NULL
               )',
 
             'CREATE TABLE IF NOT EXISTS reports (
                 id  INTEGER(11) PRIMARY KEY NOT NULL AUTO_INCREMENT,
                 group_id INTEGER(15) NOT NULL,
+                group_name TEXT(500) NOT NULL,
                 date_analysis TIMESTAMP NOT NULL,
                 count_wall INTEGER(5) NOT NULL
             )',

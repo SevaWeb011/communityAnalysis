@@ -5,6 +5,9 @@ class UserActions
     private $likes = [];
     private $comments = [];
     private $reposts = [];
+    private $countLike = 0;
+    private $countComment = 0;
+    private $countRepost = 0;
 
     public function addLike($recordID):void
     {
@@ -38,17 +41,32 @@ class UserActions
 
     public function getCountLike():int
     {
-        return count($this->likes);
+        return $this->countLike;
     }
 
     public function getCountRepost():int
     {
-        return count($this->reposts);
+        return $this->countRepost;
     }
 
     public function getCountComment():int
     {
-        return count($this->comments);
+        return $this->countComment;
+    }
+
+    public function setCountLike($count):void
+    {
+        $this->countLike = $count;
+    }
+
+    public function setCountRepost($count):void
+    {
+        $this->countRepost = $count;
+    }
+
+    public function setCountComment($count):void
+    {
+        $this->countComment = $count;
     }
 }
 ?>
