@@ -11,27 +11,43 @@ class CalculationModel extends Model
         parent::__construct();
         if (!User::isUserToken())
             $this->goHome();
+        session_write_close();
 
     }
 
    public function getNewReport():int
    {
-    $start = microtime(true);
+    //$start = microtime(true);
+    try{
         $reportID = 0;
         $bestUsers = $this->_getBestUsers();
         $groups = $this->_getPopularCommunity($bestUsers);
         $reportID = $this->_getReportID($bestUsers, $groups);
         if($reportID == 0)
-            $this->sendError("Неизвестная ошибка при анализе. Пожалуйста, свяжитесь с разработчиком");
+            $this->_sendError("Неизвестная ошибка при анализе. Пожалуйста, свяжитесь с разработчиком");
         //printTime($start);
         return $reportID;
+    }
+    catch (AppExeptions $e){
+        $this->_sendError("Не предвиденная ошибка. Если проблема не пройдет, обратитесь к разработчику.");
+        $e->__toString();
+        exit;
+    }
+    catch(VKExeptions $e) {
+        $this->_sendError("Сбой при работе сервиса VK. Если ошибка не пройдет, обратитесь к разработчику.");
+        $e->__toString();
+        exit;
+      }
    } 
 
    private function _getBestUsers():array
    {
         $idGroup = $this->_getGroupID();
         $listWallID = $this->wall->getListID($idGroup, 100);
-
+        if(empty($listWallID)){
+            $this->_sendError("Нет доступа к данному сообществу.");
+            exit;
+        }
         $this->_createAllActiveUsers($idGroup, $listWallID);
         $this->_cropList($this->userList, 100);
         usort($this->userList, 'sortByUserActive');
@@ -45,7 +61,7 @@ class CalculationModel extends Model
         //$inputID = "itumor";//temporary !!!
         $this->idGroup = $this->group->getID($inputID);
 
-         if ($this->idGroup === 0){
+         if ($this->idGroup == 0){
              $this->_sendError("ID сообщества указано не верно", 100);
              exit;
          }
@@ -58,7 +74,7 @@ class CalculationModel extends Model
         if(isset($_POST["idCommunity"]))
             $post = $_POST["idCommunity"];
         if(empty($post))
-            exit;
+            $this->_sendError("Введите ID");
         $id = $this->_getValidInputID($post);
             return($id);
    }
@@ -66,13 +82,13 @@ class CalculationModel extends Model
    private function _createAllActiveUsers($idGroup, $listWallID):void
    {
        $userList = [];
-       $count = 0;//!!!
+    //    $count = 0;//!!!
         foreach($listWallID as $key=>$id){
             $actions = $this->user->getActionLists($idGroup, $listWallID[$key]);
             $this->_createActiveUsers($actions, $id);
-            $count += 1;//!!!
+            // $count += 1;//!!!
 
-            if($count == 5) break;//!!!
+            // if($count == 5) break;//!!!
         }
         $this->_arrayConvertToList($this->userList);
    }
@@ -125,6 +141,7 @@ class CalculationModel extends Model
 
    private function _setUserNames(&$list):void
    {
+    $listID = [];
         foreach($list as $user){
             $id = $user->getID();
             $listID[] = $id;
@@ -163,6 +180,7 @@ class CalculationModel extends Model
         $err["error"]["code"] = $code;
         $err = json_encode($err);
         echo $err; 
+        exit;
    }
 
    private function _getPopularCommunity($userList):array

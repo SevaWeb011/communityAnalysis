@@ -14,6 +14,8 @@
 
       <tbody>
       <?
+      $reports = [];
+      
       if(!empty($pageData["reports"])):
         $reports = $pageData["reports"];
         $count = 0;

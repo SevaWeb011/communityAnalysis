@@ -3,11 +3,10 @@ class Group extends Request
 {
     public function getID($id):int //arg - string or int
     {
+        $groupID = 0;
         $groupData = $this->_getDataGroup($id);
         if(empty($groupData["error"]))
             $groupID = $groupData["response"][0]["id"];
-        else
-            $groupID = 0;
         return $groupID;  
     }
 

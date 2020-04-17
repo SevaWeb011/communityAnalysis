@@ -23,7 +23,7 @@ $.ajax({
       }
       if(!isEmpty(msg["report"]))
       {
-        redirect(["report"]);
+        redirect(msg["report"]);
       }
      
      // document.location.href = '/'

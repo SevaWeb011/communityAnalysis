@@ -31,6 +31,7 @@
 
     protected function _sendRequest($method, $getParams, $validCode=[]):array
     {
+        //try{
         $time = microtime(true);
         $request = self::PATH_SERVICE . "/$method?" .$getParams;
         $responseJSON = file_get_contents($request);
@@ -39,6 +40,11 @@
         $this-> _validResponse($response, $validCode);
         $this->_requestControll($time);
             return $response;
+        //}
+        // catch(VKExeptions $e){
+        //     $e->__toString();
+        //     return [];
+        // }
     }
 
 
@@ -56,6 +62,7 @@
 
     protected function _sendExecute($code):array
     {
+       // try{
         $time = microtime(true);
         $method = "execute";
         $requestParams = array(
@@ -67,6 +74,11 @@
         $response =  $this->_sendRequest($method, $getParams);
         $this->_requestControll($time);
         return $response["response"];
+   // }
+        // catch(VKExeptions $e){
+        //     $e->__toString();
+        //     return [];
+        // }
     }
 
     private function _requestControll($time)
@@ -79,7 +91,7 @@
 
         if($count % 3 == 0)
         {
-            $diff = round(1 - $period, 6) * 1000000;
+            $diff = round(1.01 - $period, 6) * 1000000;
             $period = 0;
             if($diff > 0)
                 usleep($diff);

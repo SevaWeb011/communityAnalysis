@@ -11,7 +11,7 @@
             <h5>Введите id сообщества:</h5>
             <br />
             <input type = "text" id = "idCommunity">
-            <input type = "button" class="btn btn-success" onClick="analysis()" value = "Старат"> 
+            <input type = "button" class="btn btn-success" onClick="analysis()" value = "Старт"> 
             </form>
             <div id = "error" class ="error"> </div>
             <div class="page-preloader loader" id = "loader">

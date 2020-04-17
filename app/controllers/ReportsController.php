@@ -30,6 +30,7 @@ class ReportsController extends Controller
     {
         $this->pageData["title"] = "Отчет";
         $this->pageData["groups"] = $this->model->getGroups();
+        $this->pageData["users"] = $this->model->getUsers();
         $this->view->render($this->pageData);
     }
 
