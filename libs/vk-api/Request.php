@@ -91,7 +91,7 @@
 
         if($count % 3 == 0)
         {
-            $diff = round(1.01 - $period, 6) * 1000000;
+            $diff = round(1.05 - $period, 6) * 1000000;
             $period = 0;
             if($diff > 0)
                 usleep($diff);

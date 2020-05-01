@@ -194,7 +194,7 @@ class CalculationModel extends Model
                     $this->_createGroups($groups, $idUser);
        }
         $this->_arrayConvertToList($this->groupList);
-        $this->_cropList($this->groupList, 25);
+        $this->_cropList($this->groupList, 15);
         usort($this->groupList, 'sortByCountUser');
         $this->_initGroups($this->groupList);
             return $this->groupList;
