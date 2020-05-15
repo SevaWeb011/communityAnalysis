@@ -1,0 +1,36 @@
+var i = 0;
+var j = 0;
+var wallList = $wallList;
+var ownerID = $ownerID;
+var version = $version;
+var count = 0;
+var wall;
+var step;
+var likes = [];
+var like = [];
+var arr = [];
+
+while(i <= wallList.length)
+{
+    wall = wallList[i];
+    like = API.likes.getList({"type":"post", "owner_id":ownerID,"item_id":wall, "count":100, "v": version});
+    
+    arr.map(i => 1);
+    return arr;
+    count = count + 1;
+    if (count == 25) return likes;
+        if(like.count > 100){
+            step = 100;
+            while(like.count > step){
+                like = API.likes.getList({"type":"post", "owner_id":ownerID,"item_id":wall, "count":100, "offset": step, "v" : version});
+                likes.wall = likes.wall + like.items;
+                count = count+1;
+                if (count == 25) return likes;
+                if(step == 500) step = 1000000000;
+            }
+        }
+    i = i + 1;
+}
+
+return likes;
+

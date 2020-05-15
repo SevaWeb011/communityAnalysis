@@ -1,0 +1,18 @@
+var version = $version;
+var ids = $ids;
+var res = [];
+var countAr = [];
+var i = 0;
+
+while(i < ids.count)
+{
+    var count = API.groups.getMembers({"group_id" : ids[i], "v" : version});
+    if (!count.count)
+        countAr = [0];
+    else
+        countAr = [count.count];
+    res = res + countAr;
+    i = i + 1;
+}
+return res;
+

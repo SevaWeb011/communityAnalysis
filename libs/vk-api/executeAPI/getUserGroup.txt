@@ -1,0 +1,19 @@
+var version = $version;
+var idUser = $idUser;
+var result = [];
+
+var group = API.groups.get({"user_id":idUser, "count":1000, "v": version, offset:0});
+var count = group.count;
+result = result + group.items;
+if(count < 10000)
+    count = 10000;
+if(!group.items){
+    return {"error":"error access for account"};
+}
+var step = 1000;
+while(step < count){
+    var group = API.groups.get({"user_id":idUser, "count":1000, "v": version, offset:step});
+    step = step + 1000;
+    result = result + group.items;
+}
+return result;

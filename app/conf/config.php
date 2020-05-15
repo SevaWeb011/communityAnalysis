@@ -4,12 +4,17 @@ define ("HOST", $_SERVER["HTTP_HOST"]);
 define ("CONTROLLER_PATH", ROOT."/controllers/");
 define ("MODEL_PATH", ROOT."/models/");
 define ("VIEW_PATH", ROOT."/views/");
-define ("TEMPLATE_LAYOUT", ROOT."/views/layouts/");
+define ("LAYOUT_PATH", ROOT."/views/layouts/");
 
-define ("DB_USER", "");
-define ("DB_PASS", "");
-define ("DB_HOST", "");
+define ("DB_USER", "s179098");
+define ("DB_PASS", "otherpassword");
+define ("DB_HOST", "localhost");
 define ("DB_NAME", "appvk");
+
+// define ("DB_USER", "root");
+// define ("DB_PASS", "3101"); 
+// define ("DB_HOST", "localhost");
+// define ("DB_NAME", "appVK"); 
 
 require_once("db.php"); 
 

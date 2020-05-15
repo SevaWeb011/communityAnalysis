@@ -1,0 +1,23 @@
+var id;
+var res;
+var version = $version;
+var maxCountWall = $maxCountWall;
+var ownerID = $ownerID;
+res = [];
+var step = 100;
+var listRes = API.wall.get({"owner_id":ownerID,"v":"5.103"}); 
+res = listRes.items@.id;
+var countWall = listRes.count;
+
+if (countWall > maxCountWall)
+    countWall = maxCountWall;
+
+
+
+while (step <= countWall) {
+id = API.wall.get({"owner_id":ownerID,"count":100,"v":version, "offset":step});
+res = res + id.items@.id;
+step = step+100;
+};
+
+return res;

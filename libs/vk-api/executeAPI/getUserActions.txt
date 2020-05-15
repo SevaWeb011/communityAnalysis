@@ -1,0 +1,19 @@
+var version = $version;
+var ownerID = $ownerID;
+var recordID = $recordID;
+var result;
+
+var like = API.likes.getList({"type":"post", "owner_id":ownerID,"item_id":recordID, "count":100, "v": version});
+var repost = API.wall.getReposts({"owner_id":ownerID,"post_id":recordID, "count":1000, "v": version});
+result = {"likes":like.items, "reposts": repost.items@.to_id};
+var count = like.count;
+if(count > 100){
+    var step = 100;
+    while (step < count){
+        var like = API.likes.getList({"type":"post", "owner_id":ownerID,"item_id":recordID, "count":100, "v": version, "offset":step});
+        result.likes = result.likes + like.items;
+        step = step + 100;
+        if (step==2400) step = count;
+    }
+}  
+return result;

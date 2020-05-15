@@ -1,5 +1,4 @@
 *.log
-*.txt
 libs/simple-php-vk-auth/config.php
 app/conf/config.php
 errors/*
