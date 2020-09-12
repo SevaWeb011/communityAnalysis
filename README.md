@@ -1,7 +1,7 @@
 # communityAnalysis
 application  for analysis of community vk.com
 
-Сайт с работающим проектом: https://sevaweb-blog.ru/
+
 Цель проекта: 
 
 Анализ активных подписчиков сообществ в vk.com.
